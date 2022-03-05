@@ -21,3 +21,15 @@ Auth::routes(['verify'=>true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
 
+Route::get('fillable',"App\Http\Controllers\CrudController@getOffers");
+
+
+Route::group(['prefix'=>\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale(),'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]],function(){
+    Route::group(['prefix'=>'offers'],function () {
+//    Route::get('store', 'App\Http\Controllers\CrudController@store');
+        Route::get('create','App\Http\Controllers\CrudController@create');
+
+
+        Route::post('store','App\Http\Controllers\CrudController@store')->name('offers.store');
+    });
+});
